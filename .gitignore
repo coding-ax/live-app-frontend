@@ -4,3 +4,8 @@
 # lock files
 *-lock.json
 
+# dev
+/unpackage
+
+# hbuildx
+.hbuilderx
