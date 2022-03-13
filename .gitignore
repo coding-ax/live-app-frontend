@@ -8,4 +8,5 @@
 /unpackage
 
 # hbuildx
-.hbuilderx
+/.hbuilderx
+/uni_modules

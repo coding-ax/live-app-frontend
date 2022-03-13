@@ -1,0 +1,35 @@
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.flex-kid {
+	flex: 1;
+}
+
+$small-size: 8rpx;
+$standard-size: 20rpx;
+
+.standard-padding {
+	padding: $standard-size;
+}
+
+$title-font-size: 40rpx;
+$sub-title-font-size: 30rpx;
+$desc-font-size: 20rpx;
+$desc-font-color: #d1d8e0;
+
+.title {
+	font-size: $title-font-size;
+	font-weight: 600;
+}
+
+.sub-title {
+	font-size: $sub-title-font-size;
+}
+
+.desc {
+	font-size: $desc-font-size;
+	color: $desc-font-color;
+}
