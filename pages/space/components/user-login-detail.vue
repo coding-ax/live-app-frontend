@@ -9,13 +9,13 @@
 				<text class="sub-title">{{ signature }}</text>
 			</view>
 		</view>
-		<view v-if="!isLogin"><button type="primary" size="mini">立即登录</button></view>
+		<view v-if="!isLogin"><button @click="handleLogin" type="primary" size="mini">立即登录</button></view>
 	</view>
 </template>
 
 <script>
 import Avatar from 'components/avatar.vue';
-import { defaultAvatarUrl } from 'config/index.js'
+import { defaultAvatarUrl } from 'config/index.js';
 
 export default {
 	data() {
@@ -25,11 +25,19 @@ export default {
 			src: defaultAvatarUrl
 		};
 	},
+	methods: {
+		handleLogin() {
+			uni.navigateTo({
+				url: '/pages/login/login'
+			});
+		}
+	},
 	components: {
 		Avatar
 	},
 	computed: {
 		username() {
+			// 如果是登录状态，则显示用户名
 			return this.isLogin ? '' : '未登录';
 		}
 	}
