@@ -10,3 +10,6 @@
 # hbuildx
 /.hbuilderx
 /uni_modules
+
+# vscode
+/.vscode
