@@ -1,6 +1,13 @@
 <template>
   <view class="container">
-    <Avatar :src="src" />
+    <view class="default-title">
+      <u-avatar
+        @click="handleLogin('/pages/editProfile/editProfile')"
+        :src="src"
+        fontSize="18"
+        randomBgColor
+      ></u-avatar>
+    </view>
     <view class="flex-kid">
       <view>
         <text class="title">{{ userName }}</text>
@@ -11,7 +18,7 @@
     </view>
     <view
       ><u-button
-        @click="handleLogin"
+        @click="handleLogin('/pages/login/login')"
         v-if="!isLogin"
         type="primary"
         color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))"
@@ -23,7 +30,6 @@
 </template>
 
 <script>
-import Avatar from "components/avatar.vue";
 import { defaultAvatarUrl } from "config/index.js";
 import { mapState } from "vuex";
 export default {
@@ -32,19 +38,22 @@ export default {
   },
   mounted() {},
   methods: {
-    handleLogin() {
+    handleLogin(url) {
       uni.navigateTo({
-        url: "/pages/login/login",
+        url,
       });
     },
     handleOffline() {
-      uni.clearStorageSync("openId");
-      uni.clearStorageSync("userInfo");
-      this.$store.commit("setUserInfo", {});
+      uni.showModal({
+        title: "退出登录？",
+        content: "你确定要退出登录吗",
+        success: ({ confirm }) => {
+          if (confirm) {
+            this.$store.commit("setUserInfo");
+          }
+        },
+      });
     },
-  },
-  components: {
-    Avatar,
   },
   computed: {
     ...mapState({

@@ -113,10 +113,7 @@ export default {
           email,
           password: md5(password),
         });
-        const { openId = "", detail } = loginRes.data;
-        // 存储 openId 到本地
-        uni.setStorageSync("openId", openId);
-        uni.setStorageSync("userInfo", detail);
+        const { detail } = loginRes.data;
         // 提交到 vuex
         this.$store.commit("setUserInfo", detail);
         // 返回上级页面

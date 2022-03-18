@@ -11,6 +11,13 @@ const instance = axios.create({
 })
 
 instance.defaults.adapter = (config) => {
+    // 添加header
+    const defaultHeaders = {
+        open_id: uni.getStorageSync('openId') || ''
+    }
+
+    config.headers = Object.assign(defaultHeaders, config.headers || {})
+
     return new Promise((resolve, reject) => {
         uni.request({
             method: config.method.toUpperCase(),

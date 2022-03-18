@@ -9,6 +9,8 @@ const store = new Vuex.Store({
     },
     mutations: {
         setUserInfo(state, payload) {
+            payload ? uni.setStorageSync("userInfo", payload) : uni.clearStorageSync("userInfo");
+            payload?.open_id ? uni.setStorageSync("openId", payload.open_id) : uni.clearStorageSync("openId");
             state.userInfo = payload;
         }
     }

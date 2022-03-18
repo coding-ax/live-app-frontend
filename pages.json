@@ -2,11 +2,18 @@
 	"easycom": {
 		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/space/space",
 			"style": {
 				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/editProfile/editProfile",
+			"style": {
+				"navigationBarTitleText": "编辑资料",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -23,25 +30,15 @@
 				"navigationBarTitleText": "登录",
 				"enablePullDownRefresh": false
 			}
-
 		}
-		
-	    ,{
-            "path" : "pages/editProfile/editProfile",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "编辑资料",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"tabBar": {
 		"color": "#dbdbdb",
 		"selectedColor": "#3498db",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/home/home",
 				"iconPath": "static/logo/common/live.png",
 				"selectedIconPath": "static/logo/common/live_active.png",
