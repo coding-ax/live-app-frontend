@@ -2,7 +2,7 @@
   <view class="container">
     <view class="default-title">
       <u-avatar
-        @click="handleLogin('/pages/editProfile/editProfile')"
+        @click="handleAvatarClick"
         :src="src"
         fontSize="18"
         randomBgColor
@@ -42,6 +42,9 @@ export default {
       uni.navigateTo({
         url,
       });
+    },
+    handleAvatarClick() {
+      this.isLogin && this.handleLogin("/pages/editProfile/editProfile");
     },
     handleOffline() {
       uni.showModal({

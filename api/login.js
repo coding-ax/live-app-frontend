@@ -7,3 +7,7 @@ export const registerUser = (data = {}, option = {}) => {
 export const loginUser = (data = {}, option = {}) => {
     return instance.post('/login', data, option)
 };
+
+export const updateProfile = (data = {}, option = {}) => {
+    return instance.post('/login/update_profile', data, option)
+};
