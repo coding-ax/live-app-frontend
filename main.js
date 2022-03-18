@@ -1,4 +1,5 @@
 import App from './App'
+import store from './store'
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -6,9 +7,12 @@ import uView from '@/uni_modules/uview-ui';
 Vue.use(uView);
 
 Vue.config.productionTip = false
+Vue.prototype.$store = store
+
 App.mpType = 'app'
 const app = new Vue({
-    ...App
+  store,
+  ...App
 })
 app.$mount()
 // #endif
@@ -18,8 +22,13 @@ import { createSSRApp } from 'vue'
 import uView from '@/uni_modules/uview-ui';
 Vue.use(uView);
 
+Vue.prototype.$store = store
+
 export function createApp() {
-  const app = createSSRApp(App)
+  const app = createSSRApp({
+    store,
+    ...App
+  })
   return {
     app
   }

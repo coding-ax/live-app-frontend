@@ -4,14 +4,6 @@
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "登录",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
 			"path": "pages/space/space",
 			"style": {
 				"navigationBarTitleText": "我的",
@@ -24,8 +16,26 @@
 				"navigationBarTitleText": "直播",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	],
+		
+	    ,{
+            "path" : "pages/editProfile/editProfile",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "编辑资料",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"color": "#dbdbdb",
 		"selectedColor": "#3498db",
