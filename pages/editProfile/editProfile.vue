@@ -75,11 +75,14 @@ export default {
     const currentUserInfo = convert(uni.getStorageSync("userInfo"));
     this.formData.nickName = currentUserInfo.nickName;
     this.formData.signature = currentUserInfo.signature;
-    this.formData.avatarUrl = [
-      {
-        url: currentUserInfo.avatarUrl,
-      },
-    ];
+    // 初始化头像
+    this.formData.avatarUrl = currentUserInfo.avatarUrl
+      ? [
+          {
+            url: currentUserInfo.avatarUrl,
+          },
+        ]
+      : [];
   },
   methods: {
     deletePic(event) {
