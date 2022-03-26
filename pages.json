@@ -4,6 +4,20 @@
 	},
 	"pages": [
 		{
+			"path": "pages/play/play",
+			"style": {
+				"navigationBarTitleText": "直播",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "直播",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/space/space",
 			"style": {
 				"navigationBarTitleText": "我的",
@@ -14,13 +28,6 @@
 			"path": "pages/editProfile/editProfile",
 			"style": {
 				"navigationBarTitleText": "编辑资料",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/home/home",
-			"style": {
-				"navigationBarTitleText": "直播",
 				"enablePullDownRefresh": false
 			}
 		},
