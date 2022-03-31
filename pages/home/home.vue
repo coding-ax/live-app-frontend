@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     goToPlay() {
-      uni.navigateTo({
+      uni.switchTab({
         url: "/pages/play/play",
       });
     },

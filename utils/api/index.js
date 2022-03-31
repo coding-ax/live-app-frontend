@@ -2,7 +2,7 @@ import axios from 'axios';
 const settle = require('axios/lib/core/settle');
 const buildURL = require('axios/lib/helpers/buildURL');
 
-const baseURL = 'http://localhost:3000'
+const baseURL = 'http://192.168.1.114:3001'
 
 const instance = axios.create({
     baseURL,
@@ -11,17 +11,11 @@ const instance = axios.create({
 })
 
 instance.defaults.adapter = (config) => {
-    // 添加header
-    const defaultHeaders = {
-        open_id: uni.getStorageSync('openId') || ''
-    }
-
-    config.headers = Object.assign(defaultHeaders, config.headers || {})
-
     return new Promise((resolve, reject) => {
+        const requestUrl = config.baseURL + buildURL(config.url, config.params, config.paramsSerializer);
         uni.request({
             method: config.method.toUpperCase(),
-            url: config.baseURL + buildURL(config.url, config.params, config.paramsSerializer),
+            url: requestUrl,
             header: config.headers,
             data: config.data,
             dataType: config.dataType,
@@ -42,6 +36,12 @@ instance.defaults.adapter = (config) => {
 }
 
 instance.interceptors.request.use((config) => {
+    // 添加header
+    const defaultHeaders = {
+        open_id: uni.getStorageSync('openId') || ''
+    }
+
+    config.headers = Object.assign(defaultHeaders, config.headers || {})
     return config;
 },
     error => {
