@@ -197,11 +197,15 @@ export default {
         const cloneModel = cloneDeep(this.model);
         cloneModel.cover = cloneModel.cover[0].url;
         await editLive(cloneModel);
+        uni.showToast({
+          title: "直播计划创建成功",
+          icon: "none",
+        });
         setTimeout(() => {
           uni.switchTab({
             url: "/pages/play/play",
           });
-        }, 500);
+        }, 2000);
       } finally {
         this.btnLoading = false;
       }
