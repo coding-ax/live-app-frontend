@@ -18,6 +18,6 @@ export default {
 .container {
   @extend .flex-column;
   justify-content: center;
-  height: 90vh;
+  height: 80vh;
 }
 </style>

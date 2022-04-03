@@ -1,5 +1,5 @@
 <template>
-  <view> 不要说 谁是是欸非 </view>
+  <view> 不要说 谁是是非 </view>
 </template>
 
 <script>

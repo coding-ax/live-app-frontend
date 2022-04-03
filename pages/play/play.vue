@@ -45,8 +45,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   @extend .flex-column;
-  height: 100vh;
-  background-color: #fff;
+  height: 80vh;
   .tab-box {
     @extend .flex-column;
     margin-top: 8rpx;

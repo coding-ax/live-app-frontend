@@ -18,17 +18,13 @@
 </template>
 
 <script>
-import { getLiveList } from "../../../api";
+import { getSecretLiveList } from "../../../api";
 export default {
   data() {
     return {
       src: "https://live-cdn.xgpax.top/common/work_schedule.png",
       backImgSrc: "https://live-cdn.xgpax.top/common/live-bg.jpg",
     };
-  },
-  async mounted() {
-    const result = await getLiveList({ status: 0 });
-    console.log(result);
   },
   methods: {
     goToCreatePlan() {

@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="empty">
-      <u-empty text="暂无内容" :icon="src"></u-empty>
+      <u-empty text="暂无直播内容" :icon="src"></u-empty>
     </view>
   </view>
 </template>
@@ -19,10 +19,11 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  @extend .flex-column;
-  justify-content: center;
-  height: 100vh;
-
+  .empty {
+    @extend .flex-column;
+    justify-content: center;
+    height: 80vh;
+  }
   .start-btn {
     position: fixed;
     right: $uni-spacing-row-lg;

@@ -1,9 +1,6 @@
 <template>
   <view class="container">
-    <image
-      mode="widthFix"
-      src="https://live-cdn.xgpax.top/common/edit_profile.png"
-    />
+    <image src="https://live-cdn.xgpax.top/common/edit_profile.png" />
     <u--form labelPosition="left" :model="formData" :rules="rules" ref="form">
       <u-form-item required label="头像" prop="avatarUrl" borderBottom>
         <u-upload
@@ -127,10 +124,11 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
-  height: 100vh;
-  background: #fff;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  image {
+    width: 320px;
+  }
 }
 </style>
