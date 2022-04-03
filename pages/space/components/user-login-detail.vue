@@ -60,14 +60,14 @@ export default {
   },
   computed: {
     ...mapState({
-      openId: (state) => state.userInfo?.open_id || "",
+      openId: (state) => state.userInfo?.openId || "",
       userName: (state) => {
-        if (!state.userInfo?.open_id) {
+        if (!state.userInfo?.openId) {
           return "未登录";
         }
-        return state.userInfo?.nick_name || "懒懒的用户";
+        return state.userInfo?.nickName || "懒懒的用户";
       },
-      src: (state) => state.userInfo?.avatar_url || defaultAvatarUrl,
+      src: (state) => state.userInfo?.avatarUrl || defaultAvatarUrl,
       signature: (state) =>
         state.userInfo?.signature || "这个人很懒，没有留下签名",
     }),

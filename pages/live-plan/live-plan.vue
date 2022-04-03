@@ -198,8 +198,7 @@ export default {
         cloneModel.cover = cloneModel.cover[0].url;
         await editLive(cloneModel);
         uni.showToast({
-          title: "直播计划创建成功",
-          icon: "none",
+          title: "创建成功",
         });
         setTimeout(() => {
           uni.switchTab({

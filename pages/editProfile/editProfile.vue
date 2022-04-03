@@ -43,7 +43,6 @@
 
 <script>
 import { defaultAvatarUrl } from "../../config";
-import { convert } from "../../utils/index";
 import { updateProfile, file2qiniuCloud } from "../../api";
 import { cloneDeep } from "lodash";
 
@@ -72,7 +71,7 @@ export default {
   },
   mounted() {
     // 初始化表单数据
-    const currentUserInfo = convert(uni.getStorageSync("userInfo"));
+    const currentUserInfo = uni.getStorageSync("userInfo");
     this.formData.nickName = currentUserInfo.nickName;
     this.formData.signature = currentUserInfo.signature;
     // 初始化头像
