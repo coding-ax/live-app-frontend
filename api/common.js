@@ -26,13 +26,15 @@ export const file2qiniuCloud = async (file) => {
         const result = JSON.parse(response[1].data);
         if (!result.key) {
             uni.showToast({
-                title: '上传失败'
+                title: '上传失败',
+                icon: 'none'
             })
         }
         return `${baseUrl}/${result.key}`;
     } catch (e) {
         uni.showToast({
-            title: '上传失败'
+            title: '上传失败',
+            icon: 'none'
         })
     } finally {
         uni.hideLoading()

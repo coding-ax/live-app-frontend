@@ -4,6 +4,13 @@
 	},
 	"pages": [
 		{
+			"path": "pages/live-plan/live-plan",
+			"style": {
+				"navigationBarTitleText": "创建直播计划",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "直播",

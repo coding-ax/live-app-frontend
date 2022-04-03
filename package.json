@@ -9,14 +9,15 @@
   "author": "codeax",
   "license": "MIT",
   "dependencies": {
-    "@types/lodash": "^4.14.179",
     "axios": "^0.26.1",
+    "dayjs": "^1.11.0",
     "lodash": "^4.17.21",
     "md5": "^2.3.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/html5plus": "^1.0.2",
+    "@types/lodash": "^4.14.181",
     "@types/uni-app": "^1.4.4"
   }
 }

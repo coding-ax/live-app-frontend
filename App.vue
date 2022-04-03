@@ -17,7 +17,7 @@ export default {
 /* uview */
 /*每个页面公共css */
 /* 设置背景色 */
-page {
-  background-color: #f5f5f5;
-}
+// page {
+//   background-color: #f5f5f5;
+// }
 </style>

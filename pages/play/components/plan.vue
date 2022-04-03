@@ -6,7 +6,11 @@
     <view class="empty">
       <u-empty text="无直播计划" :icon="src">
         <view class="plan-btn">
-          <u-button text="创建直播计划" type="primary"></u-button>
+          <u-button
+            text="创建直播计划"
+            type="primary"
+            @click="goToCreatePlan"
+          ></u-button>
         </view>
       </u-empty>
     </view>
@@ -20,6 +24,13 @@ export default {
       src: "https://live-cdn.xgpax.top/common/work_schedule.png",
       backImgSrc: "https://live-cdn.xgpax.top/common/live-bg.jpg",
     };
+  },
+  methods: {
+    goToCreatePlan() {
+      uni.navigateTo({
+        url: "/pages/live-plan/live-plan",
+      });
+    },
   },
 };
 </script>
