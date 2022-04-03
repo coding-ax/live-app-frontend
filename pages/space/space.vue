@@ -1,6 +1,9 @@
 <template>
-  <view>
+  <view class="container">
     <user-login-detail />
+    <view class="empty">
+      <image src="https://live-cdn.xgpax.top/common/set.png"></image>
+    </view>
   </view>
 </template>
 
@@ -17,5 +20,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.container {
+  .empty {
+    margin-top: 32rpx;
+    @extend .flex-column;
+    justify-content: center;
+    height: 500px;
+    image {
+      width: 180px;
+    }
+  }
+}
 </style>

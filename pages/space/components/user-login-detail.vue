@@ -83,7 +83,7 @@ export default {
   @extend .flex-row;
   justify-content: space-between;
   margin-top: $small-size;
-  background-color: $uni-bg-color;
+  border-bottom: 1px solid #f8f8f8;
   padding: $small-size $standard-size;
 }
 </style>
