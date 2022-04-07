@@ -115,7 +115,7 @@ export default {
         });
         const { detail } = loginRes.data;
         // 提交到 vuex
-        this.$store.commit("setUserInfo", detail);
+        this.$store.commit("setUserInfo", detail || loginRes.data);
         // 返回上级页面
         uni.navigateBack();
       } finally {

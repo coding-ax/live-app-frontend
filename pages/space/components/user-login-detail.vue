@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     ...mapState({
-      openId: (state) => state.userInfo?.openId || "",
+      isLogin: (state) => state.isLogin,
       userName: (state) => {
         if (!state.userInfo?.openId) {
           return "未登录";
@@ -71,9 +71,6 @@ export default {
       signature: (state) =>
         state.userInfo?.signature || "这个人很懒，没有留下签名",
     }),
-    isLogin() {
-      return this.openId ? true : false;
-    },
   },
 };
 </script>
