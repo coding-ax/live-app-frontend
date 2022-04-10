@@ -21,7 +21,7 @@
           <u-button
             text="创建直播计划"
             type="primary"
-            @click="goToCreatePlan"
+            @click="goToCreatePlan('/pages/live-plan/live-plan')"
           ></u-button>
         </view>
       </u-empty>
@@ -54,9 +54,9 @@ export default {
     currentLive,
   },
   methods: {
-    goToCreatePlan() {
+    goToCreatePlan(url) {
       uni.navigateTo({
-        url: "/pages/live-plan/live-plan",
+        url,
       });
     },
   },

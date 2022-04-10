@@ -1,0 +1,87 @@
+<template>
+  <view class="container">
+    <live-pusher
+      id="livePusher"
+      :url="url"
+      :enable-camera="enableCamera"
+      mode="FHD"
+      style="height: 800px"
+    ></live-pusher>
+    <view class="tool-container">
+      <button @click="handleStartClick" type="primary">{{ btnText }}</button>
+      <button @click="startPreview" type="primary">开启预览</button>
+    </view>
+  </view>
+</template>
+
+<script lang="js">
+export default {
+  data() {
+    return {
+      url: "rtmp://live.xgpax.top/live/123",
+      enableCamera: true,
+      context: null,
+      isLiving: false,
+    };
+  },
+  onReady() {
+    this.context = uni.createLivePusherContext("livePusher", this);
+    this.context.startPreview(); // 摄像头预览 （不加会黑屏）
+  },
+  computed: {
+    btnText() {
+      return this.isLiving ?  '结束直播': '开始直播';
+    },
+  },
+  methods: {
+    async handleStartClick(){
+      const result = this.isLiving ? await this.stopLive() : await this.startLive();
+      this.isLiving = result;
+      this.startPreview();
+    },
+    startPreview(){
+      if(this.context){
+        this.context.startPreview();
+      }
+    },
+    async startLive() {
+     return new Promise((resolve, reject) => {
+        this.context.start({
+          success: () => {
+            resolve(true);
+          },
+          fail: (err) => {
+            reject(false);
+          }
+        });
+      });
+    },
+    stopLive() {
+     return new Promise((resolve, reject) => {
+        this.context.stop({
+          success: () => {
+            resolve(false);
+          },
+          fail: (err) => {
+            reject(true);
+          }
+        });
+      });
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.container {
+  .tool-container {
+    @extend .flex-row;
+    justify-content: space-around;
+    margin-top: 12rpx;
+    position: absolute;
+    width: 400px;
+    height: 45px;
+    bottom: 40;
+  }
+}
+</style>

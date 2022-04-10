@@ -4,6 +4,13 @@
 	},
 	"pages": [
 		{
+			"path": "pages/live-pusher/live-pusher",
+			"style": {
+				"navigationBarTitleText": "主播",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/play/play",
 			"style": {
 				"navigationBarTitleText": "计划",
@@ -42,6 +49,13 @@
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/live-player/live-player",
+			"style": {
+				"navigationBarTitleText": "观看",
 				"enablePullDownRefresh": false
 			}
 		}

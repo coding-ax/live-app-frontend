@@ -71,7 +71,11 @@ export default {
         url: "/pages/live-plan/live-plan?liveId=" + this.liveId,
       });
     },
-    play() {},
+    play() {
+      uni.navigateTo({
+        url: "/pages/live-pusher/live-pusher?liveId=" + this.liveId,
+      });
+    },
   },
   computed: {},
 };
