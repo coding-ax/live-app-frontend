@@ -1,0 +1,31 @@
+<template>
+  <view class="container">
+    <video src="https://live.xgpax.top/live/123.flv" autoplay />
+  </view>
+</template>
+
+<script lang="js">
+export default {
+  data() {
+    return {
+      src: '',
+    };
+  },
+  onLoad({ liveId }) {
+    this.src = 'https://live.xgpax.top/live/123.flv';
+  },
+  methods: {
+    statechange(e) {
+      console.log("live-player code:", e.detail.code);
+    },
+    error(e) {
+      console.error("live-player error:", e.detail.errMsg);
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.container {
+}
+</style>
