@@ -1,19 +1,43 @@
 <template>
   <view class="container">
-    <view class="empty">
+    <view class="content" v-if="liveList.length">
+      <view class="content-item" v-for="live in liveList" :key="live.liveId">
+        <current-live
+          :cover="live.cover"
+          :isInEdit="false"
+          :liveId="live.liveId"
+          :title="live.title"
+          :userDetail="live.userDetail"
+        ></current-live>
+      </view>
+    </view>
+    <view class="empty" v-else>
       <u-empty text="暂无直播内容" :icon="src"></u-empty>
     </view>
   </view>
 </template>
 
 <script>
+import { getLiveList } from "../../api";
+import currentLive from "../play/components/current-live.vue";
+
 export default {
   data() {
     return {
       src: "https://live-cdn.xgpax.top/common/no_live.png",
+      liveList: [],
     };
   },
+  components: {
+    currentLive,
+  },
   methods: {},
+  async onShow() {
+    const result = await getLiveList();
+    const { data } = result;
+    this.liveList = data;
+    console.log(result);
+  },
 };
 </script>
 
@@ -28,6 +52,10 @@ export default {
     position: fixed;
     right: $uni-spacing-row-lg;
     bottom: $uni-spacing-col-lg;
+  }
+  .content {
+    width: 100%;
+    @extend .flex-column;
   }
 }
 </style>

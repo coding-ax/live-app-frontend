@@ -1,21 +1,11 @@
 <template>
   <view class="container">
-    <view class="default-title">
-      <u-avatar
-        @click="handleAvatarClick"
-        :src="src"
-        fontSize="18"
-        randomBgColor
-      ></u-avatar>
-    </view>
-    <view class="flex-kid">
-      <view>
-        <text class="title">{{ userName }}</text>
-      </view>
-      <view>
-        <text class="sub-title">{{ signature }}</text>
-      </view>
-    </view>
+    <user
+      :src="src"
+      :userName="userName"
+      :signature="signature"
+      :handleAvatarClick="handleAvatarClick"
+    />
     <view
       ><u-button
         @click="handleLogin('/pages/login/login')"
@@ -32,9 +22,13 @@
 <script>
 import { defaultAvatarUrl } from "config/index.js";
 import { mapState } from "vuex";
+import user from "@/components/user.vue";
 export default {
   data() {
     return {};
+  },
+  components: {
+    user,
   },
   mounted() {},
   methods: {

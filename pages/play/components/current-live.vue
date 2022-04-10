@@ -36,11 +36,24 @@
         </view>
       </view>
     </view>
+    <view class="user-detail" v-else>
+      <user
+        :src="userDetail.avatarUrl"
+        :userName="userDetail.nickName"
+        :signature="userDetail.signature"
+      ></user>
+      <u-button type="primary">进入直播间</u-button>
+    </view>
   </view>
 </template>
 
 <script>
+import { defaultAvatarUrl } from "../../../config";
+import user from "@/components/user.vue";
 export default {
+  components: {
+    user,
+  },
   props: {
     liveId: {
       type: String,
@@ -60,6 +73,15 @@ export default {
     isInEdit: {
       type: Boolean,
       default: false,
+    },
+    userDetail: {
+      type: Object,
+      default: () => ({
+        avatarUrl: defaultAvatarUrl,
+        nickName: "暂无",
+        signature: "暂无签名",
+        openId: "",
+      }),
     },
   },
   data() {
@@ -125,6 +147,9 @@ export default {
         margin-left: 4px;
       }
     }
+  }
+  .user-detail {
+    border-bottom: 2px solid #f5f5f5;
   }
 }
 </style>
