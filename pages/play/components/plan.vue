@@ -12,7 +12,7 @@
         :startTime="livePlan.startTime"
         :endTime="livePlan.endTime"
         :title="livePlan.title"
-        :isInEdit="true"
+        isInEdit
       ></current-live>
     </view>
     <view class="empty" v-else>

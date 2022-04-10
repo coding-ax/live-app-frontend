@@ -28,7 +28,7 @@
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "直播",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{

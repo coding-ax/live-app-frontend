@@ -23,3 +23,7 @@ export const delLive = (data = {}, option = {}) => {
         params: data
     }, option)
 }
+
+export const changeLiveStatus = (data = {}, option = {}) => {
+    return instance.post(`${prefix}/status`, data, option)
+}

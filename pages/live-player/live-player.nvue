@@ -1,18 +1,23 @@
 <template>
   <view class="container">
-    <video src="https://live.xgpax.top/live/123.flv" autoplay />
+    <video :src="src" autoplay style="width: 100vw" />
   </view>
 </template>
 
 <script lang="js">
+import { getLiveDetail } from '@/api';
+import user from '@/components/user.vue';
 export default {
   data() {
     return {
       src: '',
+      liveId: '',
+      liveUrl: null,
+      detail: null,
     };
   },
-  onLoad({ liveId }) {
-    this.src = 'https://live.xgpax.top/live/123.flv';
+  components: {
+    user,
   },
   methods: {
     statechange(e) {
@@ -21,6 +26,21 @@ export default {
     error(e) {
       console.error("live-player error:", e.detail.errMsg);
     },
+  },
+  async onLoad({ liveId }) {
+    this.liveId = liveId;
+    const { data: liveDetail } = await getLiveDetail({liveId});
+    const { liveUrl, detail } = liveDetail;
+    this.liveUrl = liveUrl;
+    this.detail = detail;
+    console.log(liveDetail);
+    // 根据平台获取对应的播放地址
+    // #ifdef APP-PLUS
+    this.src = liveUrl.flv;
+    // #endif
+    // #ifdef MP || H5
+    this.src = liveUrl.hls;
+    // #endif
   },
 };
 </script>

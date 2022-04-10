@@ -8,6 +8,7 @@
           :liveId="live.liveId"
           :title="live.title"
           :userDetail="live.userDetail"
+          :onEnterLivingRoom="onEnterLivingRoom"
         ></current-live>
       </view>
     </view>
@@ -19,6 +20,7 @@
 
 <script>
 import { getLiveList } from "../../api";
+import { mapState } from "vuex";
 import currentLive from "../play/components/current-live.vue";
 
 export default {
@@ -31,12 +33,30 @@ export default {
   components: {
     currentLive,
   },
-  methods: {},
+  computed: {
+    ...mapState({
+      openId: (state) => state.user.openId,
+    }),
+  },
+  methods: {
+    async refreshList() {
+      const result = await getLiveList();
+      const { data } = result;
+      this.liveList = data;
+      console.log(result);
+    },
+    onEnterLivingRoom(liveId, openId) {
+      uni.navigateTo({
+        url: `/pages/live-player/live-player?liveId=${liveId}`,
+      });
+    },
+  },
   async onShow() {
-    const result = await getLiveList();
-    const { data } = result;
-    this.liveList = data;
-    console.log(result);
+    this.refreshList();
+  },
+  async onPullDownRefresh() {
+    await this.refreshList();
+    uni.stopPullDownRefresh();
   },
 };
 </script>

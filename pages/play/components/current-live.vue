@@ -15,7 +15,7 @@
           >结束时间: <text>{{ endTime }}</text></view
         >
       </view>
-      <view class="date-container-btn">
+      <view class="date-container-btn" v-if="!isHistory">
         <view class="date-container-btn-item">
           <u-button
             type="primary"
@@ -42,7 +42,9 @@
         :userName="userDetail.nickName"
         :signature="userDetail.signature"
       ></user>
-      <u-button type="primary">进入直播间</u-button>
+      <u-button type="primary" @click="onEnterLivingRoom(liveId)"
+        >进入直播间</u-button
+      >
     </view>
   </view>
 </template>
@@ -74,6 +76,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isHistory: {
+      type: Boolean,
+      default: false,
+    },
     userDetail: {
       type: Object,
       default: () => ({
@@ -82,6 +88,10 @@ export default {
         signature: "暂无签名",
         openId: "",
       }),
+    },
+    onEnterLivingRoom: {
+      type: Function,
+      default: () => {},
     },
   },
   data() {

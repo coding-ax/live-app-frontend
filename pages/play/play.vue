@@ -9,7 +9,7 @@
       <plan :livePlanList="livePlanList"></plan>
     </view>
     <view class="tab-box" v-else>
-      <history></history>
+      <history :historyPlanList="historyPlanList"></history>
     </view>
   </view>
 </template>
@@ -31,7 +31,36 @@ export default {
       list: ["直播计划", "历史记录"],
       current: 0,
       livePlanList: [],
+      historyPlanList: [],
     };
+  },
+  methods: {
+    sectionChange(index) {
+      this.current = index;
+    },
+    async livePlanQuery() {
+      const { data } = await getSecretLiveList({ status: [0, 1] });
+      const currentData = data.map((v) => ({
+        ...v,
+        startTime: dayjs(v.startTime).format("YYYY-MM-DD HH:mm"),
+        endTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
+      }));
+      this.livePlanList = currentData;
+    },
+    async historyPlanListQuery() {
+      const { data } = await getSecretLiveList({ status: 2 });
+      const currentData = data.map((v) => ({
+        ...v,
+        startTime: dayjs(v.startTime).format("YYYY-MM-DD HH:mm"),
+        endTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
+      }));
+      this.historyPlanList = currentData;
+      console.log(data);
+    },
+    initList() {
+      this.livePlanList = [];
+      this.historyPlanList = [];
+    },
   },
   computed: {
     isPlan() {
@@ -41,28 +70,18 @@ export default {
       isLogin: (state) => state.isLogin,
     }),
   },
-  async onShow() {
+
+  onShow() {
     if (!this.isLogin) {
-      this.livePlanList = [];
+      this.initList();
       return;
     }
     try {
-      const { data } = await getSecretLiveList({ status: 0 });
-      const currentData = data.map((v) => ({
-        ...v,
-        startTime: dayjs(v.startTime).format("YYYY-MM-DD HH:mm"),
-        endTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
-      }));
-      this.livePlanList = currentData;
+      this.livePlanQuery();
+      this.historyPlanListQuery();
     } catch (e) {
-      //TODO handle the exception
-      this.livePlanList = [];
+      this.initList();
     }
-  },
-  methods: {
-    sectionChange(index) {
-      this.current = index;
-    },
   },
 };
 </script>
