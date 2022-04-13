@@ -3,13 +3,26 @@
     <view class="image">
       <image :src="backImgSrc"></image>
     </view>
-    <view class="empty">
+    <view class="list" v-if="livePlanList.length">
+      <current-live
+        v-for="livePlan in livePlanList"
+        :key="livePlan.liveId"
+        :liveId="livePlan.liveId"
+        :cover="livePlan.cover"
+        :startTime="livePlan.startTime"
+        :endTime="livePlan.endTime"
+        :title="livePlan.title"
+        @refresh="emitRefresh"
+        isInEdit
+      ></current-live>
+    </view>
+    <view class="empty" v-else>
       <u-empty text="无直播计划" :icon="src">
-        <view class="plan-btn">
+        <view class="plan-btn" v-if="isLogin">
           <u-button
             text="创建直播计划"
             type="primary"
-            @click="goToCreatePlan"
+            @click="goToCreatePlan('/pages/live-plan/live-plan')"
           ></u-button>
         </view>
       </u-empty>
@@ -18,18 +31,38 @@
 </template>
 
 <script>
+import currentLive from "./current-live.vue";
+import { mapState } from "vuex";
 export default {
+  props: {
+    livePlanList: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       src: "https://live-cdn.xgpax.top/common/work_schedule.png",
       backImgSrc: "https://live-cdn.xgpax.top/common/live-bg.jpg",
     };
   },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin,
+    }),
+  },
+  components: {
+    currentLive,
+  },
   methods: {
-    goToCreatePlan() {
+    goToCreatePlan(url) {
       uni.navigateTo({
-        url: "/pages/live-plan/live-plan",
+        url,
       });
+    },
+    emitRefresh() {
+      console.log("emit");
+      this.$emit("refresh");
     },
   },
 };
@@ -42,7 +75,7 @@ export default {
   .image {
     image {
       border-radius: 28rpx;
-      width: 320px;
+      width: 336px;
       height: 160px;
     }
   }

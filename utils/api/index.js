@@ -47,6 +47,7 @@ instance.interceptors.request.use((config) => {
     error => {
         uni.showToast({
             title: `请求发送失败：${error}`,
+            icon: 'none'
         })
     }
 )
@@ -65,7 +66,7 @@ instance.interceptors.response.use(res => {
     error => {
         uni.showToast({
             title: `后端异常：${error}`,
-            icon: 'fail',
+            icon: 'none',
         })
         return Promise.reject(error);
     }

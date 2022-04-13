@@ -1,21 +1,11 @@
 <template>
   <view class="container">
-    <view class="default-title">
-      <u-avatar
-        @click="handleAvatarClick"
-        :src="src"
-        fontSize="18"
-        randomBgColor
-      ></u-avatar>
-    </view>
-    <view class="flex-kid">
-      <view>
-        <text class="title">{{ userName }}</text>
-      </view>
-      <view>
-        <text class="sub-title">{{ signature }}</text>
-      </view>
-    </view>
+    <user
+      :src="src"
+      :userName="userName"
+      :signature="signature"
+      :handleAvatarClick="handleAvatarClick"
+    />
     <view
       ><u-button
         @click="handleLogin('/pages/login/login')"
@@ -32,9 +22,13 @@
 <script>
 import { defaultAvatarUrl } from "config/index.js";
 import { mapState } from "vuex";
+import user from "@/components/user.vue";
 export default {
   data() {
     return {};
+  },
+  components: {
+    user,
   },
   mounted() {},
   methods: {
@@ -60,20 +54,17 @@ export default {
   },
   computed: {
     ...mapState({
-      openId: (state) => state.userInfo?.open_id || "",
+      isLogin: (state) => state.isLogin,
       userName: (state) => {
-        if (!state.userInfo?.open_id) {
+        if (!state.userInfo?.openId) {
           return "未登录";
         }
-        return state.userInfo?.nick_name || "懒懒的用户";
+        return state.userInfo?.nickName || "懒懒的用户";
       },
-      src: (state) => state.userInfo?.avatar_url || defaultAvatarUrl,
+      src: (state) => state.userInfo?.avatarUrl || defaultAvatarUrl,
       signature: (state) =>
         state.userInfo?.signature || "这个人很懒，没有留下签名",
     }),
-    isLogin() {
-      return this.openId ? true : false;
-    },
   },
 };
 </script>
@@ -83,7 +74,7 @@ export default {
   @extend .flex-row;
   justify-content: space-between;
   margin-top: $small-size;
-  background-color: $uni-bg-color;
+  border-bottom: 1px solid #f8f8f8;
   padding: $small-size $standard-size;
 }
 </style>

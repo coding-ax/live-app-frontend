@@ -74,12 +74,22 @@
       </u--form>
     </view>
     <view class="submit">
-      <u-button
-        type="primary"
-        :loading="btnLoading"
-        @click="handleSubmit"
-        text="创建"
-      ></u-button>
+      <view class="submit-item">
+        <u-button
+          type="primary"
+          :loading="btnLoading"
+          @click="handleSubmit"
+          text="完成"
+        ></u-button>
+      </view>
+      <view class="submit-item" v-if="isInEdit">
+        <u-button
+          type="error"
+          :loading="delBtnLoading"
+          @click="del"
+          text="删除"
+        ></u-button>
+      </view>
     </view>
     <u-datetime-picker
       :show="timeSelectorShow"
@@ -94,8 +104,11 @@
 
 <script>
 import dayjs from "dayjs";
-import { editLive, file2qiniuCloud } from "../../api";
+import { delLive, editLive, file2qiniuCloud, getLiveDetail } from "../../api";
 import { cloneDeep } from "lodash";
+
+const timeToken = "YYYY-MM-DD HH:mm";
+
 export default {
   data() {
     return {
@@ -103,6 +116,9 @@ export default {
       timeSelectorShow: false,
       isChooseStartTime: false,
       btnLoading: false,
+      delBtnLoading: false,
+      isInEdit: false,
+      liveId: "",
       model: {
         title: "",
         cover: [],
@@ -133,6 +149,31 @@ export default {
         },
       },
     };
+  },
+  async onLoad(option) {
+    const { liveId } = option;
+    if (!liveId) {
+      return;
+    }
+    try {
+      const { data } = await getLiveDetail({ liveId });
+      const { detail } = data;
+      this.model = {
+        ...detail,
+        cover: [{ url: detail.cover }],
+        startTime: dayjs(detail.startTime).format(timeToken),
+        endTime: dayjs(detail.endTime).format(timeToken),
+      };
+      this.isInEdit = true;
+      this.liveId = liveId;
+    } catch (e) {
+      this.model = {
+        title: "",
+        cover: [],
+        startTime: "",
+        endTime: "",
+      };
+    }
   },
   computed: {
     currentTime() {
@@ -169,7 +210,6 @@ export default {
     },
     handleTimeChange(event) {
       const { value } = event;
-      const timeToken = "YYYY-MM-DD HH:mm:ss";
       this.isChooseStartTime
         ? (this.model.startTime = dayjs(value).format(timeToken))
         : (this.model.endTime = dayjs(value).format(timeToken));
@@ -198,8 +238,7 @@ export default {
         cloneModel.cover = cloneModel.cover[0].url;
         await editLive(cloneModel);
         uni.showToast({
-          title: "直播计划创建成功",
-          icon: "none",
+          title: "创建成功",
         });
         setTimeout(() => {
           uni.switchTab({
@@ -209,6 +248,35 @@ export default {
       } finally {
         this.btnLoading = false;
       }
+    },
+    async handleDel() {
+      try {
+        this.delBtnLoading = true;
+        await delLive({
+          liveId: this.liveId,
+        });
+        uni.showToast({
+          title: "删除成功",
+        });
+        setTimeout(() => {
+          uni.switchTab({
+            url: "/pages/play/play",
+          });
+        }, 2000);
+      } finally {
+        this.delBtnLoading = false;
+      }
+    },
+    async del() {
+      uni.showModal({
+        title: "删除？",
+        content: "你确定要删除直播计划吗",
+        success: ({ confirm }) => {
+          if (confirm) {
+            this.handleDel();
+          }
+        },
+      });
     },
   },
 };
@@ -226,6 +294,7 @@ export default {
     .time-trigger {
       @extend .flex-row;
       justify-content: space-between;
+      width: 100%;
       height: 40px;
     }
   }
@@ -235,6 +304,11 @@ export default {
   }
   .submit {
     margin-top: 20rpx;
+    @extend .flex-row;
+    justify-content: space-between;
+    &-item {
+      margin-left: 12rpx;
+    }
   }
 }
 </style>

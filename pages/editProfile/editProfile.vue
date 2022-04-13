@@ -1,9 +1,6 @@
 <template>
   <view class="container">
-    <image
-      mode="widthFix"
-      src="https://live-cdn.xgpax.top/common/edit_profile.png"
-    />
+    <image src="https://live-cdn.xgpax.top/common/edit_profile.png" />
     <u--form labelPosition="left" :model="formData" :rules="rules" ref="form">
       <u-form-item required label="头像" prop="avatarUrl" borderBottom>
         <u-upload
@@ -43,7 +40,6 @@
 
 <script>
 import { defaultAvatarUrl } from "../../config";
-import { convert } from "../../utils/index";
 import { updateProfile, file2qiniuCloud } from "../../api";
 import { cloneDeep } from "lodash";
 
@@ -72,7 +68,7 @@ export default {
   },
   mounted() {
     // 初始化表单数据
-    const currentUserInfo = convert(uni.getStorageSync("userInfo"));
+    const currentUserInfo = uni.getStorageSync("userInfo");
     this.formData.nickName = currentUserInfo.nickName;
     this.formData.signature = currentUserInfo.signature;
     // 初始化头像
@@ -128,10 +124,11 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
-  height: 100vh;
-  background: #fff;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  image {
+    width: 320px;
+  }
 }
 </style>
