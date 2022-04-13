@@ -6,7 +6,7 @@
       @change="sectionChange"
     ></u-subsection>
     <view class="tab-box" v-if="isPlan">
-      <plan :livePlanList="livePlanList"></plan>
+      <plan :livePlanList="livePlanList" @refresh="pullDownStart"></plan>
     </view>
     <view class="tab-box" v-else>
       <history :historyPlanList="historyPlanList"></history>
@@ -38,6 +38,21 @@ export default {
     sectionChange(index) {
       this.current = index;
     },
+    pullDownStart() {
+      uni.startPullDownRefresh();
+    },
+    async refreshData() {
+      if (!this.isLogin) {
+        this.initList();
+        return;
+      }
+      try {
+        await this.livePlanQuery();
+        await this.historyPlanListQuery();
+      } catch (e) {
+        this.initList();
+      }
+    },
     async livePlanQuery() {
       const { data } = await getSecretLiveList({ status: [0, 1] });
       const currentData = data.map((v) => ({
@@ -52,7 +67,7 @@ export default {
       const currentData = data.map((v) => ({
         ...v,
         startTime: dayjs(v.startTime).format("YYYY-MM-DD HH:mm"),
-        endTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
+        updateTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
       }));
       this.historyPlanList = currentData;
       console.log(data);
@@ -72,16 +87,11 @@ export default {
   },
 
   onShow() {
-    if (!this.isLogin) {
-      this.initList();
-      return;
-    }
-    try {
-      this.livePlanQuery();
-      this.historyPlanListQuery();
-    } catch (e) {
-      this.initList();
-    }
+    this.refreshData();
+  },
+  async onPullDownRefresh() {
+    await this.refreshData();
+    uni.stopPullDownRefresh();
   },
 };
 </script>

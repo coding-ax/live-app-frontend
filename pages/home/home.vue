@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     ...mapState({
-      openId: (state) => state.user.openId,
+      openId: (state) => state.openId,
     }),
   },
   methods: {

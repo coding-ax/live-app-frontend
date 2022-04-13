@@ -7,7 +7,7 @@
         :liveId="livePlan.liveId"
         :cover="livePlan.cover"
         :startTime="livePlan.startTime"
-        :endTime="livePlan.endTime"
+        :endTime="livePlan.updateTime"
         :title="livePlan.title"
         isInEdit
         isHistory

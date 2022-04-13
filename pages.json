@@ -7,7 +7,7 @@
 			"path": "pages/play/play",
 			"style": {
 				"navigationBarTitleText": "计划",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{

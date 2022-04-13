@@ -12,6 +12,7 @@
         :startTime="livePlan.startTime"
         :endTime="livePlan.endTime"
         :title="livePlan.title"
+        @refresh="emitRefresh"
         isInEdit
       ></current-live>
     </view>
@@ -58,6 +59,10 @@ export default {
       uni.navigateTo({
         url,
       });
+    },
+    emitRefresh() {
+      console.log("emit");
+      this.$emit("refresh");
     },
   },
 };

@@ -50,8 +50,10 @@
 </template>
 
 <script>
-import { defaultAvatarUrl } from "../../../config";
+import { defaultAvatarUrl } from "@/config";
 import user from "@/components/user.vue";
+import dayjs from "dayjs";
+import { changeLiveStatus } from "@/api";
 export default {
   components: {
     user,
@@ -97,6 +99,11 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    isEndTimeExpired() {
+      return dayjs().isAfter(dayjs(this.endTime));
+    },
+  },
   methods: {
     edit() {
       uni.navigateTo({
@@ -104,12 +111,28 @@ export default {
       });
     },
     play() {
-      uni.navigateTo({
-        url: "/pages/live-pusher/live-pusher?liveId=" + this.liveId,
-      });
+      if (this.isEndTimeExpired) {
+        uni.showModal({
+          title: "提示",
+          content:
+            "直播预定时间已到，无法进入直播间，是否结束本场直播?（您可编辑直播结束时间）",
+          success: async ({ confirm }) => {
+            if (confirm) {
+              await changeLiveStatus({
+                liveId: this.liveId,
+                status: 2,
+              });
+              this.$emit("refresh");
+            }
+          },
+        });
+      } else {
+        uni.navigateTo({
+          url: "/pages/live-pusher/live-pusher?liveId=" + this.liveId,
+        });
+      }
     },
   },
-  computed: {},
 };
 </script>
 
