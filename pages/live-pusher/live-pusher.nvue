@@ -1,54 +1,109 @@
 <template>
   <view class="container">
-    <live-pusher
-      id="livePusher"
-      :url="url"
-      :enable-camera="enableCamera"
-      mode="FHD"
-      style="height: 800px"
-    ></live-pusher>
-    <view class="tool-container">
-      <u-button
-        @click="handleStartClick"
-        type="primary"
-        :text="btnText"
-      ></u-button>
-      <u-button
-        @click="tempStop"
-        type="primary"
-        text="暂停直播"
-        :disabled="!isLiving"
-      ></u-button>
-      <u-button @click="startPreview" type="primary" text="开启预览">
-      </u-button>
+    <!--#ifndef APP-PLUS -->
+    <u-empty
+      text="请前往App平台进行推流"
+      icon="https://live-cdn.xgpax.top/common/no_content.png"
+    ></u-empty>
+    <!--#endif -->
+    <!--#ifdef APP-PLUS -->
+    <view>
+      <live-pusher
+        id="livePusher"
+        :url="url"
+        style="height: 800px"
+        @netstatus="handleNetStatusChange"
+        :beauty="beauty"
+        :whiteness="whiteness"
+      ></live-pusher>
+
+      <view class="info-container">
+        <describe :data="liveInfo"></describe>
+      </view>
+
+      <view class="tool-container">
+        <view class="tool-container-config">
+          <view class="tool-container-config-item">
+            <text style="color: #fff">美颜：</text>
+            <u-slider
+              v-model="beauty"
+              min="0"
+              max="10"
+              activeColor="#3c9cff"
+              inactiveColor="#c0c4cc"
+            >
+            </u-slider>
+          </view>
+          <view class="tool-container-config-item">
+            <text style="color: #fff">美白：</text>
+            <u-slider
+              v-model="whiteness"
+              min="0"
+              max="10"
+              activeColor="#3c9cff"
+              inactiveColor="#c0c4cc"
+            >
+            </u-slider>
+          </view>
+        </view>
+        <view class="tool-container-btn">
+          <u-button
+            @click="handleStartClick"
+            type="primary"
+            :text="btnText"
+          ></u-button>
+          <u-button
+            @click="tempStop"
+            type="primary"
+            text="暂停直播"
+            :disabled="!isLiving"
+          ></u-button>
+          <u-button @click="startPreview" type="primary" text="开启预览">
+          </u-button>
+        </view>
+      </view>
     </view>
+    <!--#endif -->
   </view>
 </template>
 
 <script lang="js">
 import { getLiveDetail, changeLiveStatus } from '@/api';
+import describe from '@/components/describe.vue';
 export default {
+  // #ifdef APP-PLUS
   data() {
     return {
-      url: "rtmp://live.xgpax.top/live/123",
-      enableCamera: true,
+      url: '',
       context: null,
       isLiving: false,
       liveId: '',
+      isPause: false,
+      liveInfo: [],
+      beauty: 3,
+      whiteness: 5,
     };
+  },
+  components: {
+    describe
   },
   computed: {
     btnText() {
+      if(this.isPause){
+        return '继续直播';
+      }
       return this.isLiving ?  '结束直播': '开始直播';
     },
   },
   methods: {
     async handleStartClick(){
-      const result = this.isLiving ? await this.stopLive() : await this.startLive();
-      this.startPreview();
+      return this.isLiving ? await this.stopLive() : await this.startLive();
     },
     initLivePlayerContext(){
+      if(!this.context){
         this.context = uni.createLivePusherContext("livePusher", this);
+        this.startPreview();
+      }
     },
     tempStop(){
         uni.showModal({
@@ -57,21 +112,35 @@ export default {
           success: ({ confirm }) => {
             if (confirm) {
               this.changeCurrentLiveStatus(0);
-              this.isLiving = false;
-              this.stopCurrentLive();
-              this.startPreview();
+              this.context.pause({
+                success: () => {
+                  this.isPause = true;
+                  this.isLiving = false;
+                },
+              });
             }
           },
         });
     },
     startPreview(){
       if(this.context){
+        this.context.stopPreview();
         this.context.startPreview();
       }
     },
     async startLive() {
      this.changeCurrentLiveStatus(1);
      return new Promise((resolve, reject) => {
+        if(this.isPause){
+          this.context.resume({
+            success: () => {
+              this.isPause = false;
+              this.isLiving = true;
+              resolve(true);
+              return;
+            },
+          });
+        }
         this.context.start({
           success: () => {
             this.isLiving = true;
@@ -113,30 +182,50 @@ export default {
               title: "退出直播成功",
               icon: "success",
             });
+            this.stopCurrentLive();
             setTimeout(function() {
               uni.navigateBack();
-            }, 1000);
-            this.stopCurrentLive();
+            }, 500);
           }
         },
     });
     },
-  },
-  mounted() {
-	  if(!this.context){
-		 this.initLivePlayerContext();
-	  }
-    this.startPreview(); // 摄像头预览 （不加会黑屏）
+    handleNetStatusChange(e){
+      const { detail, timeStamp } = e;
+      const { info } = detail;
+      this.liveInfo =
+      [
+        {
+          key: '视频比特率',
+          value: `${info.videoBitrate}kb/s`,
+        },
+        {
+          key: '音频比特率',
+          value: `${info.audioBitrate}kb/s`,
+        },
+        {
+          key:  '视频帧率',
+          value: `${info.videoFPS}fps`
+        },
+        {
+          key: '网络速度',
+          value: `${Math.round(info.netSpeed / 8)}kB/s`
+        }
+      ]
+    }
   },
   async onLoad({liveId}){
     try{
       const liveDetailResponse = await getLiveDetail({ liveId });
       const { data } = liveDetailResponse;
       const { rtmp } = data.pushUrl;
-      console.log(rtmp);
+      console.log(data);
       this.liveId = liveId;
       this.url = rtmp;
-      this.initLivePlayerContext();
+      // 演示创建直播实例
+      setTimeout(()=>{
+        this.initLivePlayerContext();
+      }, 500);
       uni.setNavigationBarTitle({
         title: data.detail.title,
       });
@@ -144,20 +233,41 @@ export default {
       //TODO handle the exception
       console.error(e);
     }
+  },
+  // 控制离开app
+  onHide(){
+    if(!this.isPause && this.isLiving){
+      this.context.pause();
+      this.isPause = true;
+    }
+  },
+  onShow(){
+    if(this.isPause && this.isLiving){
+      this.context.resume();
+      this.isPause = false;
+    }
   }
+  // #endif
 };
 </script>
 
 <style scoped lang="scss">
 .container {
   .tool-container {
-    @extend .flex-row;
-    justify-content: space-around;
-    margin-top: 12rpx;
     position: absolute;
     width: 400px;
-    height: 45px;
     bottom: 40;
+    &-btn {
+      @extend .flex-row;
+      justify-content: space-around;
+      margin-top: 12rpx;
+    }
+  }
+
+  .info-container {
+    position: absolute;
+    width: 200px;
+    right: 0;
   }
 }
 </style>
