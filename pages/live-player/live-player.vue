@@ -43,10 +43,7 @@ export default {
       player.id = "video";
       player.style = "width:100vw;height:225px;";
       player.enableProgressGesture = false;
-      player.controls = false;
-      player.showCenterPlayBtn = true;
-      player.showPlayBtn = false;
-      player.showFullscreenBtn = true;
+      player.controls = true;
       player.x5VideoPlayerType = "h5-page";
       player.x5VideoPlayerFullscreen = "false";
       player.autoplay = true; // 以上均为 video标签的属性配置

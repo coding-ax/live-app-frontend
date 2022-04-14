@@ -24,7 +24,7 @@
       <view class="tool-container">
         <view class="tool-container-config">
           <view class="tool-container-config-item">
-            <text style="color: #fff">美颜：</text>
+            <text class="label">美颜：</text>
             <u-slider
               v-model="beauty"
               min="0"
@@ -35,7 +35,7 @@
             </u-slider>
           </view>
           <view class="tool-container-config-item">
-            <text style="color: #fff">美白：</text>
+            <text class="label">美白：</text>
             <u-slider
               v-model="whiteness"
               min="0"
@@ -263,7 +263,12 @@ export default {
       margin-top: 12rpx;
     }
   }
-
+  .label {
+    color: #fff;
+    margin-left: 16px;
+    font-size: 18px;
+    font-weight: 600;
+  }
   .info-container {
     position: absolute;
     width: 200px;
