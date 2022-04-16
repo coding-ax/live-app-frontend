@@ -20,6 +20,9 @@
       <view class="info-container">
         <describe :data="liveInfo"></describe>
       </view>
+      <!-- <view class="info-container-left">
+        <barrage-container v-if="liveId" :liveId="liveId"></barrage-container>
+      </view> -->
 
       <view class="tool-container">
         <view class="tool-container-config">
@@ -219,7 +222,6 @@ export default {
       const liveDetailResponse = await getLiveDetail({ liveId });
       const { data } = liveDetailResponse;
       const { rtmp } = data.pushUrl;
-      console.log(data);
       this.liveId = liveId;
       this.url = rtmp;
       // 演示创建直播实例
@@ -273,6 +275,11 @@ export default {
     position: absolute;
     width: 200px;
     right: 0;
+  }
+  .info-container-left {
+    position: absolute;
+    width: 200px;
+    left: 0;
   }
 }
 </style>

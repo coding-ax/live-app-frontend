@@ -4,23 +4,52 @@
     <view id="myPlayer"></view>
     <!-- #endif -->
     <!-- #ifndef H5 -->
-    <video
-      ref="videoElement"
-      :src="src"
-      autoplay
-      :controls="false"
-      style="width: 100vw"
-    />
+    <view id="myPlayer">
+      <video
+        ref="videoElement"
+        :src="src"
+        autoplay
+        :controls="false"
+        style="width: 100vw"
+      />
+    </view>
     <!-- #endif -->
+    <view class="scroll-view">
+      <view class="input-container">
+        <view class="input-box">
+          <u--input
+            class="input"
+            placeholder="发条弹幕吧~"
+            prefixIcon="chat"
+            v-model="barrage"
+            :adjustPosition="false"
+            prefixIconStyle="font-size: 22px;color: #909399"
+          ></u--input>
+          <u-button
+            :adjust-position="false"
+            class="button"
+            text="发送"
+            type="success"
+            :disabled="!barrage"
+            @click="handleSendBtnClick"
+          ></u-button>
+        </view>
+      </view>
+      <view class="scroll-container">
+        <barrage-container v-if="liveId" :liveId="liveId"></barrage-container>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
-import { getLiveDetail } from "@/api";
+import { getLiveDetail, sendBarrage } from "@/api";
 import user from "@/components/user.vue";
+import barrageContainer from "@/components/barrage-container.vue";
 // #ifdef H5
 import flvjs from "flv.js";
 // #endif
+
 export default {
   data() {
     return {
@@ -31,12 +60,32 @@ export default {
       windowWidth: "",
       flvPlayer: null,
       player: null,
+      barrage: "",
+      timer: null,
+      barrageList: [],
     };
   },
   components: {
     user,
+    barrageContainer,
   },
   methods: {
+    async handleSendBtnClick() {
+      try {
+        const data = {
+          liveId: this.liveId,
+          barrage: {
+            type: "message",
+            content: this.barrage,
+          },
+        };
+        await sendBarrage(data);
+        this.barrage = "";
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
     // #ifdef H5
     generateVideoTag() {
       const player = document.createElement("video");
@@ -83,7 +132,6 @@ export default {
     // #ifdef MP
     this.src = liveUrl.hls;
     // #endif
-    console.log(this.src);
     // #ifdef H5
     this.$nextTick(() => {
       this.initVideo();
@@ -96,6 +144,20 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  .scroll-view {
+    margin: 20px;
+    .input-container {
+      bottom: 10px;
+      .input-box {
+        width: 100%;
+        display: flex;
+        .button {
+          flex: 0.2;
+          margin-left: 4px;
+        }
+      }
+    }
+  }
   #myPlayer {
     width: 100vw;
     height: 225px;

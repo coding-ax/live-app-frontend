@@ -233,7 +233,6 @@ export default {
       try {
         await this.$refs.createLivePlanForm.validate();
         this.btnLoading = true;
-        console.log(this.model);
         const cloneModel = cloneDeep(this.model);
         cloneModel.cover = cloneModel.cover[0].url;
         await editLive(cloneModel);

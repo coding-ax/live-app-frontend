@@ -70,7 +70,6 @@ export default {
         updateTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
       }));
       this.historyPlanList = currentData;
-      console.log(data);
     },
     initList() {
       this.livePlanList = [];

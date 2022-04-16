@@ -27,3 +27,11 @@ export const delLive = (data = {}, option = {}) => {
 export const changeLiveStatus = (data = {}, option = {}) => {
     return instance.post(`${prefix}/status`, data, option)
 }
+
+export const sendBarrage = (data = {}, option = {}) => {
+    return instance.post(`${prefix}/create_barrage`, data, option)
+}
+
+export const getBarrage = (data = {}, option = {}) => {
+    return instance.post(`${prefix}/barrage`, data, option)
+}
