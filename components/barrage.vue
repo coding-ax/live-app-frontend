@@ -1,8 +1,8 @@
 <template>
   <view class="barrage">
-    <view class="user">{{ barrage.user.nickName }}</view>
-    <view class="sep">{{ ` : ` }}</view>
-    <view class="content">{{ barrage.barrageContent.content }}</view>
+    <text class="user">{{ barrage.user.nickName }}</text>
+    <text class="sep">:</text>
+    <text class="content">{{ barrage.barrageContent.content }}</text>
   </view>
 </template>
 
@@ -19,20 +19,25 @@ export default {
 
 <style scoped lang="scss">
 .barrage {
-  display: flex;
+  @extend .flex-row;
+  align-items: baseline;
   margin-top: 12px;
-  .user {
+
+  .base {
     font-size: 14px;
     color: #909399;
+  }
+  .user {
+    @extend .base;
+    white-space: nowrap;
   }
 
   .seq {
-    color: #909399;
-    margin-right: 4px;
+    @extend .base;
   }
 
   .content {
-    font-size: 14px;
+    @extend .base;
   }
 }
 </style>

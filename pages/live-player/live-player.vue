@@ -36,7 +36,11 @@
         </view>
       </view>
       <view class="scroll-container">
-        <barrage-container v-if="liveId" :liveId="liveId"></barrage-container>
+        <barrage-container
+          v-if="liveId"
+          style="max-height: 40vh"
+          :liveId="liveId"
+        ></barrage-container>
       </view>
     </view>
   </view>

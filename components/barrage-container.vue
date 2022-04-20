@@ -1,9 +1,14 @@
 <template>
-  <view class="container">
+  <scroll-view
+    scroll-y="true"
+    :scroll-top="scrollTop"
+    scroll-with-animation="true"
+    class="container"
+  >
     <view class="barrage" v-for="barrage in barrageList" :key="barrage.id">
       <barrage :barrage="barrage"></barrage>
     </view>
-  </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -26,6 +31,7 @@ export default {
   },
   data() {
     return {
+      scrollTop: 99999,
       barrageList: [],
       timer: null,
     };
@@ -33,6 +39,10 @@ export default {
   methods: {
     clearRealtimeChat() {
       clearInterval(this.timer);
+    },
+    scrollToBtn() {
+      this.scrollTop += 200;
+      this.scrollTop %= Number.MAX_SAFE_INTEGER;
     },
     async getRealtimeBarrage() {
       try {
@@ -46,6 +56,7 @@ export default {
         });
         if (res.data.length) {
           this.barrageList.push(...res.data);
+          this.scrollToBtn();
         }
       } catch (e) {
         //TODO handle the exception
@@ -71,7 +82,7 @@ export default {
 <style>
 .container {
   min-height: 200px;
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: scroll;
 }
 </style>
