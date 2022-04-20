@@ -62,9 +62,9 @@ export default {
       buttonText: defaultButtonText,
       btnLoading: false,
       formData: {
-        email: "1312976124@qq.com",
-        password: "123456",
-        verifyPassword: "123456",
+        email: "",
+        password: "",
+        verifyPassword: "",
       },
       rules: {
         email: [
