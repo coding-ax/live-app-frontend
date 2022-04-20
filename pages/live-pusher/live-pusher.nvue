@@ -20,6 +20,16 @@
       <view class="info-container">
         <describe :data="liveInfo"></describe>
       </view>
+      <view class="info-container-left">
+        <view><text class="info-container-left-text">当前弹幕</text></view>
+        <view>
+          <barrage-container
+            v-if="liveId"
+            style="max-height: 200px"
+            :liveId="liveId"
+          ></barrage-container>
+        </view>
+      </view>
 
       <view class="tool-container">
         <view class="tool-container-config">
@@ -70,6 +80,7 @@
 <script lang="js">
 import { getLiveDetail, changeLiveStatus } from '@/api';
 import describe from '@/components/describe.vue';
+import barrageContainer from '@/components/barrage-container.vue';
 export default {
   // #ifdef APP-PLUS
   data() {
@@ -85,7 +96,8 @@ export default {
     };
   },
   components: {
-    describe
+    describe,
+    barrageContainer
   },
   computed: {
     btnText() {
@@ -219,7 +231,6 @@ export default {
       const liveDetailResponse = await getLiveDetail({ liveId });
       const { data } = liveDetailResponse;
       const { rtmp } = data.pushUrl;
-      console.log(data);
       this.liveId = liveId;
       this.url = rtmp;
       // 演示创建直播实例
@@ -273,6 +284,20 @@ export default {
     position: absolute;
     width: 200px;
     right: 0;
+  }
+  .info-container-left {
+    position: absolute;
+    width: 180px;
+    top: 200px;
+    left: 0;
+    background-color: #000;
+    opacity: 0.5;
+    border-radius: 0 4px 4px 0;
+    &-text {
+      color: #fff;
+      text-align: center;
+      margin-top: 4px;
+    }
   }
 }
 </style>

@@ -143,7 +143,6 @@ export default {
     position: relative;
     image {
       width: 336px;
-      height: 160px;
       border-radius: 10rpx;
     }
     .title {

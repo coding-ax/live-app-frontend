@@ -61,7 +61,6 @@ export default {
       });
     },
     emitRefresh() {
-      console.log("emit");
       this.$emit("refresh");
     },
   },

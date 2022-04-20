@@ -43,7 +43,6 @@ export default {
       const result = await getLiveList();
       const { data } = result;
       this.liveList = data;
-      console.log(result);
     },
     onEnterLivingRoom(liveId, openId) {
       uni.navigateTo({

@@ -70,7 +70,6 @@ export default {
         updateTime: dayjs(v.endTime).format("YYYY-MM-DD HH:mm"),
       }));
       this.historyPlanList = currentData;
-      console.log(data);
     },
     initList() {
       this.livePlanList = [];
@@ -99,7 +98,6 @@ export default {
 <style lang="scss" scoped>
 .container {
   @extend .flex-column;
-  height: 80vh;
   .tab-box {
     @extend .flex-column;
     margin-top: 8rpx;
