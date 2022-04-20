@@ -19,7 +19,8 @@
         <view class="input-box">
           <u--input
             class="input"
-            placeholder="发条弹幕吧~"
+            :placeholder="placeholder"
+            :disabled="!isLogin"
             prefixIcon="chat"
             v-model="barrage"
             :adjustPosition="false"
@@ -50,6 +51,7 @@
 import { getLiveDetail, sendBarrage } from "@/api";
 import user from "@/components/user.vue";
 import barrageContainer from "@/components/barrage-container.vue";
+import { mapState } from "vuex";
 // #ifdef H5
 import flvjs from "flv.js";
 // #endif
@@ -72,6 +74,14 @@ export default {
   components: {
     user,
     barrageContainer,
+  },
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.isLogin,
+    }),
+    placeholder() {
+      return this.isLogin ? "发条弹幕吧~" : "登录后才可以互动哦~";
+    },
   },
   methods: {
     async handleSendBtnClick() {
