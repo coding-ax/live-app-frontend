@@ -4,7 +4,8 @@
     <u-empty
       text="请前往App平台进行推流"
       icon="https://live-cdn.xgpax.top/common/no_content.png"
-    ></u-empty>
+    >
+    </u-empty>
     <!--#endif -->
     <!--#ifdef APP-PLUS -->
     <view>
@@ -15,6 +16,8 @@
         @netstatus="handleNetStatusChange"
         :beauty="beauty"
         :whiteness="whiteness"
+        :local-mirror="true"
+        :mode="currentMode"
       ></live-pusher>
 
       <view class="info-container">
@@ -29,6 +32,23 @@
             :liveId="liveId"
           ></barrage-container>
         </view>
+        <u-button
+          type="primary"
+          text="切换摄像头"
+          @click="changeCamera"
+        ></u-button>
+        <u-button
+          type="primary"
+          text="切换清晰度"
+          @click="switchPicker(true)"
+          style="margin-top: 5px"
+        ></u-button>
+        <u-picker
+          :show="pickerShow"
+          :columns="columns"
+          @confirm="changeMode"
+          @cancel="switchPicker(false)"
+        ></u-picker>
       </view>
 
       <view class="tool-container">
@@ -93,6 +113,11 @@ export default {
       liveInfo: [],
       beauty: 3,
       whiteness: 5,
+	  pickerShow: false,
+      columns: [
+         ['SD', 'HD', 'FHD', 'RTC']
+      ],
+	  currentMode: 'FHD'
     };
   },
   components: {
@@ -108,6 +133,19 @@ export default {
     },
   },
   methods: {
+	changeCamera(){
+		if(this.context){
+			this.context.switchCamera();
+		}
+	},
+	switchPicker(status){
+		this.pickerShow = status;
+	},
+	changeMode(event){
+		const { value } = event;
+		this.currentMode = value[0];
+		this.switchPicker(false);
+	},
     async handleStartClick(){
       return this.isLiving ? await this.stopLive() : await this.startLive();
     },
