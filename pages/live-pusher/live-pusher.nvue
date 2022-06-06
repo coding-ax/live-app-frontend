@@ -16,8 +16,8 @@
         @netstatus="handleNetStatusChange"
         :beauty="beauty"
         :whiteness="whiteness"
-		:local-mirror="true"
-		:mode="currentMode"
+        :local-mirror="true"
+        :mode="currentMode"
       ></live-pusher>
 
       <view class="info-container">
@@ -32,9 +32,23 @@
             :liveId="liveId"
           ></barrage-container>
         </view>
-		<u-button type="primary" text="切换摄像头" @click="changeCamera"></u-button>
-		<u-button type="primary" text="切换清晰度" @click="switchPicker(true)" style="margin-top: 5px;" ></u-button>
-		<u-picker :show="pickerShow" :columns="columns" @confirm="changeMode" @cancel="switchPicker(false)"></u-picker>
+        <u-button
+          type="primary"
+          text="切换摄像头"
+          @click="changeCamera"
+        ></u-button>
+        <u-button
+          type="primary"
+          text="切换清晰度"
+          @click="switchPicker(true)"
+          style="margin-top: 5px"
+        ></u-button>
+        <u-picker
+          :show="pickerShow"
+          :columns="columns"
+          @confirm="changeMode"
+          @cancel="switchPicker(false)"
+        ></u-picker>
       </view>
 
       <view class="tool-container">
